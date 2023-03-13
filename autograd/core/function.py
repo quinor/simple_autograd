@@ -6,7 +6,7 @@ from .tensor import Tensor
 class Function(abc.ABC):
     counter: int = 0
     def __init__(self):
-        self.name = self.__class__
+        self.name = self.__class__.__name__
         self.order_no = Function.counter
         Function.counter += 1
         self.inputs = []
@@ -34,7 +34,7 @@ class Function(abc.ABC):
         assert len(input_grads) == len(self.inputs)
 
         for input, gradient in zip(self.inputs, input_grads):
-            assert (input is None) < (gradient is None)
+            assert (input is None) <= (gradient is None)
         self.saved_tensors = None
         return input_grads
 
@@ -64,4 +64,4 @@ class Function(abc.ABC):
         return out
 
     def __repr__(self) -> str:
-        return f"<{self.name}>"
+        return f"<{self.name}.{self.order_no}>"

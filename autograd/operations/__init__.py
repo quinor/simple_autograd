@@ -1,5 +1,5 @@
 import numpy as np
-from simple_autograd.core import Tensor, Function
+from autograd.core import Tensor, Function
 
 class Add(Function):
     def forward(self, a, b):
@@ -7,6 +7,8 @@ class Add(Function):
 
     def backward(self, out_grad):
         return out_grad, out_grad
+
+add = Add.apply
 
 class Multiply(Function):
     def forward(self, a, b):
@@ -16,3 +18,5 @@ class Multiply(Function):
     def backward(self, out_grad):
         a, b = self.saved_tensors
         return Tensor(out_grad.data*b.data), Tensor(out_grad.data*a.data)
+
+mul = Multiply.apply
